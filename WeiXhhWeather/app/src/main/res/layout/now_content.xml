@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/corners_bg"
+    android:layout_marginTop="20dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="15dp">
+
+    <TextView
+        android:id="@+id/tv_now_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="日期"
+        android:layout_centerHorizontal="true"
+        android:textSize="25sp"
+        android:textColor="#fff"/>
+
+    <TextView
+        android:id="@+id/tv_now_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_now_date"
+        android:text="温度"
+        android:layout_centerHorizontal="true"
+        android:textSize="100sp"
+        android:textColor="#fff"/>
+
+    <TextView
+        android:id="@+id/tv_now_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_now_temp"
+        android:layout_centerInParent="true"
+        android:text="风向"
+        android:textSize="25sp"
+        android:textColor="#fff"
+        android:layout_marginBottom="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_now_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_now_wind"
+        android:layout_centerInParent="true"
+        android:text="情况"
+        android:textSize="30sp"
+        android:textColor="#fff"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_now_type"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Tip"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_now_ganmao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_tip"
+        android:layout_marginLeft="10dp"
+        android:text="Tip"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:layout_marginBottom="20dp"/>
+</RelativeLayout>

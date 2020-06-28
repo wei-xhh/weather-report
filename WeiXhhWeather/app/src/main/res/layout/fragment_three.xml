@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/bg"
+        android:id="@+id/weather_main_bg">
+        <include layout="@layout/title"/>
+        <include layout="@layout/now_content"/>
+        <include layout="@layout/forecast_content"/>
+    </LinearLayout>
+</LinearLayout>

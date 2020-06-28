@@ -1,19 +1,25 @@
-package com.example.weixhhweather;
+package com.example.weixhhweather.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import com.example.weixhhweather.ForecastAdapter;
+import com.example.weixhhweather.ForecastData;
 import com.example.weixhhweather.Gson.Forecast;
 import com.example.weixhhweather.Gson.WeatherResponse;
 import com.example.weixhhweather.Gson.Yesterday;
+import com.example.weixhhweather.R;
+import com.example.weixhhweather.SelectCityActivity;
 import com.example.weixhhweather.Utils.DataUtil;
 import com.example.weixhhweather.Utils.ProgressDialogUtil;
 
@@ -25,22 +31,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-// http://wthrcdn.etouch.cn/weather_mini?city=深圳
-// http://wthrcdn.etouch.cn/weather_mini?citykey=101280601
-//{"data":{
-//    "yesterday":{"date":"20日星期一","high":"高温 20℃","fx":"无持续风向","low":"低温 14℃","fl":"<![CDATA[<3级]]>","type":"多云"}
-//    ,"city":"深圳",
-//        "forecast":[
-//                {"date":"21日星期二","high":"高温 23℃","fengli":"<![CDATA[<3级]]>","low":"低温 17℃","fengxiang":"无持续风向","type":"阴"},
-//        {"date":"22日星期三","high":"高温 24℃","fengli":"<![CDATA[<3级]]>","low":"低温 19℃","fengxiang":"无持续风向","type":"多云"},
-//        {"date":"23日星期四","high":"高温 24℃","fengli":"<![CDATA[<3级]]>","low":"低温 19℃","fengxiang":"无持续风向","type":"雾"},
-//        {"date":"24日星期五","high":"高温 26℃","fengli":"<![CDATA[<3级]]>","low":"低温 18℃","fengxiang":"无持续风向","type":"多云"},
-//        {"date":"25日星期六","high":"高温 23℃","fengli":"<![CDATA[<3级]]>","low":"低温 15℃","fengxiang":"无持续风向","type":"小雨"}
-//        ],
-//        "ganmao":"各项气象条件适宜，无明显降温过程，发生感冒机率较低。","wendu":"20"},
-//        "status":1000,"desc":"OK"}
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+public class FragmentOne extends Fragment {
     private TextView tvTitleName; // 城市名称
     private TextView tvNowDate; // 今天的日期
     private TextView tvNowTemp; // 今天的温度
@@ -51,45 +42,44 @@ public class MainActivity extends AppCompatActivity {
     private ListView lvForecast ; // 预报ListView
     private List<ForecastData> dataList = new ArrayList<>(); // 预报列表
     private ForecastAdapter adapter; // 预报适配器
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        tvTitleName = findViewById(R.id.tv_title_name);
-        tvNowDate = findViewById(R.id.tv_now_date);
-        tvNowTemp = findViewById(R.id.tv_now_temp);
-        tvNowType = findViewById(R.id.tv_now_type);
-        tvNowWind = findViewById(R.id.tv_now_wind);
-        tvNowGanmao = findViewById(R.id.tv_now_ganmao);
-        SwitchCity = findViewById(R.id.btn_switch_city);
-        lvForecast = findViewById(R.id.lv_forecast_content);
-        GetDataAndShowData("深圳");
-
-        // 选择其他城市
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_one, container, false);
+        tvTitleName = view.findViewById(R.id.tv_title_name);
+        tvNowDate = view.findViewById(R.id.tv_now_date);
+        tvNowTemp = view.findViewById(R.id.tv_now_temp);
+        tvNowType = view.findViewById(R.id.tv_now_type);
+        tvNowWind = view.findViewById(R.id.tv_now_wind);
+        tvNowGanmao = view.findViewById(R.id.tv_now_ganmao);
+        SwitchCity = view.findViewById(R.id.btn_switch_city);
+        lvForecast = view.findViewById(R.id.lv_forecast_content);
         SwitchCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SelectCityActivity.class);
+                Intent intent = new Intent(getContext(), SelectCityActivity.class);
                 startActivityForResult(intent, 1001);
             }
         });
+        GetDataAndShowData("深圳");
+        return view;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == 1001 && resultCode == 1002) {
-            String cityName = data.getStringExtra("cityName");
-            GetDataAndShowData(cityName);
-        }
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 选择其他城市
+
+
     }
 
     private void GetDataAndShowData(String cityName) {
-        ProgressDialogUtil.showProgressDialog(MainActivity.this); // 加载框
+        ProgressDialogUtil.showProgressDialog(getContext()); // 加载框
         String address = "http://wthrcdn.etouch.cn/weather_mini?city="+cityName;
         DataUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-                runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -131,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "获得天气出错了" + e);
             }
         });
     }
@@ -183,5 +172,4 @@ public class MainActivity extends AppCompatActivity {
         ForecastData otherDayData = new ForecastData(date, high.substring(2), low.substring(2), type); // 未来几天的天气
         return otherDayData;
     }
-
 }
